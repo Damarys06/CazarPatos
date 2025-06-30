@@ -27,12 +27,12 @@ class LoginActivity : AppCompatActivity() {
             insets
         }*/
         //Inicialización de variables
-
         editTextEmail = findViewById(R.id.editTextEmail)
         editTextPassword = findViewById(R.id.editTextPassword)
         buttonLogin = findViewById(R.id.buttonLogin)
         buttonNewUser = findViewById(R.id.buttonNewUser)
         checkBoxRecordarme = findViewById(R.id.checkBoxRecordarme)
+
         LeerDatosDePreferencias()
 
         //Eventos clic
@@ -42,9 +42,7 @@ class LoginActivity : AppCompatActivity() {
             //Validaciones de datos requeridos y formatos
             if(!validateRequiredData())
                 return@setOnClickListener
-            //Guardar datos en preferencias.
             GuardarDatosEnPreferencias()
-
             //Si pasa validación de datos requeridos, ir a pantalla principal
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra(EXTRA_LOGIN, email)
@@ -57,11 +55,9 @@ class LoginActivity : AppCompatActivity() {
         mediaPlayer=MediaPlayer.create(this, R.raw.title_screen)
         mediaPlayer.start()
     }
-
     private fun LeerDatosDePreferencias(){
         manejadorArchivo = SharedPreferencesManager(this)
-        var listadoLeido : Pair<String, String>
-        //Shared preferences
+        var listadoLeido : Pair<String,String>
         listadoLeido = manejadorArchivo.ReadInformation()
         if(listadoLeido.first != null){
             checkBoxRecordarme.isChecked = true
@@ -69,9 +65,23 @@ class LoginActivity : AppCompatActivity() {
         editTextEmail.setText ( listadoLeido.first )
         editTextPassword.setText ( listadoLeido.second )
 
-        //Encrypted Shared Preferences
         manejadorArchivo = EncriptedSharedPreferencesManager(this)
-        //Shared preferences
+        listadoLeido = manejadorArchivo.ReadInformation()
+        if(listadoLeido.first != null){
+            checkBoxRecordarme.isChecked = true
+        }
+        editTextEmail.setText ( listadoLeido.first )
+        editTextPassword.setText ( listadoLeido.second )
+
+        manejadorArchivo= FileInternalManager(this)
+        listadoLeido = manejadorArchivo.ReadInformation()
+        if(listadoLeido.first != null){
+            checkBoxRecordarme.isChecked = true
+        }
+        editTextEmail.setText ( listadoLeido.first )
+        editTextPassword.setText ( listadoLeido.second )
+
+        manejadorArchivo= FileExternalManager(this)
         listadoLeido = manejadorArchivo.ReadInformation()
         if(listadoLeido.first != null){
             checkBoxRecordarme.isChecked = true
@@ -79,6 +89,7 @@ class LoginActivity : AppCompatActivity() {
         editTextEmail.setText ( listadoLeido.first )
         editTextPassword.setText ( listadoLeido.second )
     }
+
     private fun GuardarDatosEnPreferencias(){
         val email = editTextEmail.text.toString()
         val clave = editTextPassword.text.toString()
@@ -89,14 +100,18 @@ class LoginActivity : AppCompatActivity() {
         else{
             listadoAGrabar ="" to ""
         }
-        //SharedPreferences
+        //SharedPreferencesManager
         manejadorArchivo = SharedPreferencesManager(this)
         manejadorArchivo.SaveInformation(listadoAGrabar)
-        //EncryptedSharedPreferences
+        //EncryptedSharedPrefrencesManager
         manejadorArchivo = EncriptedSharedPreferencesManager(this)
         manejadorArchivo.SaveInformation(listadoAGrabar)
-
-
+        //FileInternalManager
+        manejadorArchivo= FileInternalManager(this)
+        manejadorArchivo.SaveInformation(listadoAGrabar)
+        //FileExternalManager
+        manejadorArchivo= FileExternalManager(this)
+        manejadorArchivo.SaveInformation(listadoAGrabar)
     }
 
     private fun validateRequiredData():Boolean{
