@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "541639660745",
+    "project_id": "proyectocazarpatos-adf79",
+    "storage_bucket": "proyectocazarpatos-adf79.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:541639660745:android:d4dc1e84fb7099b0a66918",
+        "android_client_info": {
+          "package_name": "com.damarys.ona.cazarpatos"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZe4zfNOhqMkKU7jJpvynCkU_HLzjJVxU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
