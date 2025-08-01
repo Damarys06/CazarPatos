@@ -23,7 +23,6 @@ class LoginActivity : AppCompatActivity() {
     lateinit var buttonNewUser:Button
     lateinit var checkBoxRecordarme: CheckBox
     lateinit var mediaPlayer: MediaPlayer
-
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,21 +63,33 @@ class LoginActivity : AppCompatActivity() {
             AutenticarUsuario(email, clave)
         }
         buttonNewUser.setOnClickListener{
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
 
         }
         mediaPlayer=MediaPlayer.create(this, R.raw.title_screen)
         mediaPlayer.start()
     }
+
+    override fun onStart() {
+        super.onStart()
+        // Comprobar usuario autenticado
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
+
     fun AutenticarUsuario(email:String, password:String){
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     Log.d(EXTRA_LOGIN, "signInWithEmail:success")
-                    //Si pasa validación de datos requeridos, ir a pantalla principal
                     val intencion = Intent(this, MainActivity::class.java)
                     intencion.putExtra(EXTRA_LOGIN, auth.currentUser!!.email)
                     startActivity(intencion)
-                    //finish()
                 } else {
                     Log.w(EXTRA_LOGIN, "signInWithEmail:failure", task.exception)
                     Toast.makeText(baseContext, task.exception!!.message,
@@ -106,7 +117,6 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
     }
-
 
     private fun LeerDatosDePreferencias(){
         manejadorArchivo = SharedPreferencesManager(this)

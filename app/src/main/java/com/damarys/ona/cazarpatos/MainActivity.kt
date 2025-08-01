@@ -18,6 +18,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
 import kotlin.random.Random
 
@@ -35,6 +36,8 @@ class MainActivity : AppCompatActivity() {
     private var soundId: Int = 0
     private var isLoaded = false
     private var gameOver = false
+
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -144,12 +147,16 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton(getString(R.string.button_restart)) { _, _ ->
                 restartGame()
             }
-            .setNegativeButton(getString(R.string.button_close)) { _, _ ->
-                // Dialog dismisses automatically
+            .setNegativeButton(getString(R.string.button_close)) { _, _ -> closeSession()
             }
             .setCancelable(false)  // Prevents closing on outside click
         builder.create().show()
     }
+    private fun closeSession() {
+        FirebaseAuth.getInstance().signOut()
+        moveTaskToBack(true)
+    }
+
     private fun restartGame(){
         counter = 0
         gameOver = false

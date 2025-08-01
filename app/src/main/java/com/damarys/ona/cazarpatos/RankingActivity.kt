@@ -55,11 +55,11 @@ class RankingActivity : AppCompatActivity() {
                     //val jugador = document.toObject<Player>()
                     jugadores.add(jugador)
                 }
-                //Poblar en RecyclerView información usando mi adaptador
-                val recyclerViewRanking: RecyclerView = findViewById(R.id.recyclerViewRanking);
-                recyclerViewRanking.layoutManager = LinearLayoutManager(this);
-                recyclerViewRanking.adapter = RankingAdapter(jugadores);
-                recyclerViewRanking.setHasFixedSize(true);
+                // Poblar en RecyclerView la información usando mi adaptador
+                val recyclerViewRanking: RecyclerView = findViewById(R.id.recyclerViewRanking)
+                recyclerViewRanking.layoutManager = LinearLayoutManager(this)
+                recyclerViewRanking.adapter = RankingAdapter(jugadores)
+                recyclerViewRanking.setHasFixedSize(true)
             }
             .addOnFailureListener { exception ->
                 Log.w(EXTRA_LOGIN, "Error getting documents.", exception)
